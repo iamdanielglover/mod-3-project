@@ -10,13 +10,10 @@ class HerosController < ApplicationController
     if @hero
       render json: @hero
     else
-      render json: { errors: @hero.errors.full_messages }, status: 404
+      render json: { errors: "Hero could not be found." }, status: 404
     end
   end
 
-  # def new
-  #   @hero = Hero.new
-  # end
 
   def create
     byebug
@@ -28,9 +25,6 @@ class HerosController < ApplicationController
     end
   end
 
-  # def edit
-  #   @hero = Hero.find_by(id: params[:id])
-  # end
 
 #   fetch('http://localhost:3000/new_wave', {
 # method: 'POST',
