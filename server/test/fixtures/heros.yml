@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  fast_attack: 1
+  heavy_attack: 1
+  speed: 1
+  strength: 1
+  hit_points: 1
+  img_url: MyString
+
+two:
+  name: MyString
+  fast_attack: 1
+  heavy_attack: 1
+  speed: 1
+  strength: 1
+  hit_points: 1
+  img_url: MyString
