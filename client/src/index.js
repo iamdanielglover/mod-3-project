@@ -22,10 +22,12 @@ const avatarImages =
     }
   ]
 
-
 const baseurl = 'http://localhost:3000'
+let villains = []
 
-let state = {character: {
+API.get('http://localhost:3000/villains').then(data => villains = data)
+
+let villain_state = {
   name: '',
   fast_attack: 0,
   heavy_attack: 0,
@@ -33,7 +35,30 @@ let state = {character: {
   strength: 0,
   hit_points: 0,
   img_url: ''
-}}
+}
+
+let state = {
+  villain:
+    {
+      name: '',
+      fast_attack: 0,
+      heavy_attack: 0,
+      speed: 0,
+      strength: 0,
+      hit_points: 0,
+      img_url: ''
+    },
+  character:
+    {
+      name: '',
+      fast_attack: 0,
+      heavy_attack: 0,
+      speed: 0,
+      strength: 0,
+      hit_points: 0,
+      img_url: ''
+    }
+}
 
 
 
@@ -117,4 +142,10 @@ function validfyPointSpenditure(num, form) {
 
 
 //CALL
-applyImagesToBar(avatarImages)
+// applyImagesToBar(avatarImages)
+const initialize = () => {
+  API.get('http://localhost:3000/villains').then(data => villains = data)
+  applyImagesToBar(avatarImages)
+}
+
+initialize()
