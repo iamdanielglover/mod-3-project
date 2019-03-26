@@ -16,3 +16,5 @@ villain3 = Villain.create(name: 'Mutton Shunter', fast_attack: 3, heavy_attack: 
 villain4 = Villain.create(name: 'Smelly Rotter', fast_attack: 2, heavy_attack: 3, speed: 1, strength: 3, hit_points: 6, img_url: 'https://geekoutpost.com/wp-content/uploads/2015/12/71e2063f6edb730d64c1194f580b704a2e1b7658.png__0x1500_q85.png')
 
 hero1 = Hero.create(name: 'Sofia', fast_attack: 10, heavy_attack: 10, speed: 10, strength: 10, hit_points: 10, img_url: 'https://images-na.ssl-images-amazon.com/images/I/61s4T4fkRBL._SX425_.jpg')
+
+hero2 = Hero.create(name: 'Barry', fast_attack: 10, heavy_attack: 10, speed: 10, strength: 10, hit_points: 10, img_url: 'https://images-na.ssl-images-amazon.com/images/I/61s4T4fkRBL._SX425_.jpg')

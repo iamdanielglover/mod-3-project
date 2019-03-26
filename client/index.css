@@ -1,0 +1,24 @@
+#image_bar {
+  height: 15vh;
+  background: grey;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+#image_bar span {
+  height: 80%;
+  width: 8vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 2em;
+}
+
+#image_bar img {
+  max-width: 8vh;
+  max-height: 13vh;
+}
+
+.card {
+
+}

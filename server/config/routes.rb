@@ -5,4 +5,5 @@ Rails.application.routes.draw do
 
   post '/new_wave', to: 'heros#new_wave'
   get '/get_score/:hero_id', to: 'heros#get_score'
+  get '/random_villain', to: `villains#random_villain`
 end

@@ -1,6 +1,7 @@
 class VillainsController < ApplicationController
   def index
     @villains = Villain.all
+    render json: @villains
   end
 
   def show
