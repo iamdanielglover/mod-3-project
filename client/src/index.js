@@ -27,18 +27,11 @@ let villains = []
 
 API.get('http://localhost:3000/villains').then(data => villains = data)
 
-// let villain_state = {
-//   name: '',
-//   fast_attack: 0,
-//   heavy_attack: 0,
-//   speed: 0,
-//   strength: 0,
-//   hit_points: 0,
-//   img_url: ''
-// }
+
 
 let state = {
   round: 1,
+  score: 100,
   villain:
     {
       name: '',
@@ -111,7 +104,7 @@ function displayForm() {
       </form>
       `
       main.append(formDiv)
-        form = document.querySelector('form')
+        let form = document.querySelector('form')
       submitEventListener(form)
 }
 
@@ -119,8 +112,6 @@ function submitEventListener(form) {
 
   form.addEventListener('submit', event => {
     event.preventDefault()
-    console.log('hello');
-    console.log(form.image.value);
     let total = parseInt(form.fast_attack.value) + parseInt(form.heavy_attack.value) + parseInt(form.speed.value) + parseInt(form.strength.value) + parseInt(form.hit_points.value)
     validfyPointSpenditure(total, form)
     form.reset()
@@ -199,10 +190,204 @@ function createAttackButtons() {
     </span>
   `
   main.append(divButtonEl)
+  fastAttackButtonListener()
+  heavyAttackButtonListener()
+  strengthAttackButtonListener()
+  speedAttackButtonListener()
+}
 
+function fastAttackButtonListener() {
+  let fastAttackBtn = document.querySelector('#fast-attack')
+  fastAttackBtn.addEventListener('click', event => {
+    console.log('fasssstt attttaaaacccckkkkk');
+    fastAttack()
+    state.score--
+    continueCondition()
+  })
+}
+
+function heavyAttackButtonListener() {
+  let heavyAttackBtn = document.querySelector('#heavy-attack')
+  heavyAttackBtn.addEventListener('click', event => {
+    console.log('heavy attttaaaacccckkkkk');
+    heavyAttack()
+    state.score--
+    continueCondition()
+  })
+}
+
+function strengthAttackButtonListener() {
+  let strengthAttackBtn = document.querySelector('#strength-attack')
+  strengthAttackBtn.addEventListener('click', event => {
+    console.log('strength attttaaaacccckkkkk');
+    strengthAttack()
+    state.score--
+    continueCondition()
+  })
+}
+
+function speedAttackButtonListener() {
+  let speedAttackBtn = document.querySelector('#speed-attack')
+  speedAttackBtn.addEventListener('click', event => {
+    console.log('speed attttaaaacccckkkkk');
+    speedAttack()
+    state.score--
+    continueCondition()
+  })
+}
+
+// FIGHT MECHANICS
+const randomNum = () => Math.ceil(Math.random()*10)
+
+function makeAttack(move) {
+    count = move;
+	  nums = []
+	do {
+    	nums.push(randomNum())
+		count--
+    } while (count > 0)
+	return successRolls(nums)
+}
+
+function successRolls(array) {
+    successes = array.filter(element => element > 6)
+    return successes.length
+}
+
+//villain attacks
+const villainFastAttack = () => makeAttack(state.villain.fast_attack)
+const villainHeavyAttack = () => makeAttack(state.villain.heavy_attack)
+const villainStrength = () => makeAttack(state.villain.strength)
+const villainSpeed = () => makeAttack(state.villain.speed)
+
+//hero attacks
+const heroFastAttack = () => makeAttack(state.character.fast_attack)
+const heroHeavyAttack = () => makeAttack(state.character.heavy_attack)
+const heroStrength = () => makeAttack(state.character.strength)
+const heroSpeed = () => makeAttack(state.character.speed)
+
+//call hero and villain fast attack
+function fastAttack() {
+let heroDamage = heroFastAttack()
+let villainDamage = villainFastAttack()
+state.character.hit_points -= villainDamage
+state.villain.hit_points -= heroDamage
+}
+
+function heavyAttack() {
+let heroDamage = heroHeavyAttack()
+let villainDamage = villainHeavyAttack()
+state.character.hit_points -= villainDamage
+state.villain.hit_points -= heroDamage
+}
+
+function strengthAttack() {
+let heroDamage = heroStrength()
+let villainDamage = villainStrength()
+state.character.hit_points -= villainDamage
+state.villain.hit_points -= heroDamage
+}
+
+function speedAttack() {
+let heroDamage = heroSpeed()
+let villainDamage = villainSpeed()
+state.character.hit_points -= villainDamage
+state.villain.hit_points -= heroDamage
+}
+
+//fight conditions
+function continueCondition() {
+  let hHP = state.character.hit_points
+  let vHP = state.villain.hit_points
+  if (vHP > 0 && hHP > 0) {
+    main.innerHTML = ""
+    displayInformation()
+  } else if (vHP > 0 && hHP <= 0) {
+    main.innerHTML = ""
+    console.log('hero loses');
+  } else if (vHP <= 0 && hHP > 0) {
+    roundCondition()
+
+    console.log('hero wins');
+  } else if (vHP <= 0 && hHP <= 0) {
+    main.innerHTML = ""
+    console.log('Everybody loses!');
+  }
 }
 
 
+function roundCondition() {
+  state.round++
+  if (state.round < 5) {
+    main.innerHTML = ""
+    upgradeForm()
+    //displayInformation()
+  } else {
+    main.innerHTML = `<h2> You WIN!!! </h2>`
+    console.log('You WIN!');
+  }
+}
+
+//EDIT PAGE
+function upgradeForm() {
+  let points = state.round + 1
+
+  formDiv.innerHTML = `
+        <form class="upgrade-superhero" style="" name="">
+        <h3>You have ${points} points to spend!</h3>
+        <br>
+          <input type="number" name="fast_attack" value="${state.character.fast_attack}" placeholder="0" class="input-text">
+        <br>
+          <input type="number" name="heavy_attack" value="${state.character.heavy_attack}" placeholder="0" class="input-text">
+        <br>
+          <input type="number" name="speed" value="${state.character.speed}" placeholder="0" class="input-text">
+        <br>
+          <input type="number" name="strength" value="${state.character.strength}" placeholder="0" class="input-text">
+        <br>
+          <input type="number" name="hit_points" value="${state.character.hit_points}" placeholder="0" class="input-text">
+        <br>
+        <input type="submit" name="submit" value="Create Your Hero" class="submit">
+      </form>
+      `
+      main.append(formDiv)
+      let upgradeFormEl = document.querySelector('.upgrade-superhero')
+      upgradeEventListener(upgradeFormEl)
+}
+
+function upgradeEventListener(form) {
+  form.addEventListener('submit', event => {
+    event.preventDefault()
+    let total = parseInt(form.fast_attack.value) + parseInt(form.heavy_attack.value) + parseInt(form.speed.value) + parseInt(form.strength.value) + parseInt(form.hit_points.value)
+    let allowance = parseInt(state.character.fast_attack) + parseInt(state.character.heavy_attack) + parseInt(state.character.speed) + parseInt(state.character.strength) + parseInt(state.character.hit_points) + state.round + 1
+    upgradeValidifyPointSpenditure(total, form, allowance)
+    main.innerHTML = ""
+    form.reset()
+    displayInformation()
+  })
+}
+
+function upgradeValidifyPointSpenditure(total, form, allowance) {
+  if (total != allowance) {
+    alert(`Must spend ${allowance} points. You've spent ${total} so far`)
+    upgradeForm()
+    return false
+  } else if (total == allowance) {
+    state.character.fast_attack = form.fast_attack.value
+    state.character.heavy_attack = form.heavy_attack.value
+    state.character.speed = form.speed.value
+    state.character.strength = form.strength.value
+    state.character.hit_points = form.hit_points.value
+  }
+}
+
+
+//END PAGE
+
+//final score
+function finalScore() {
+  let finalScoreHero = state.score + state.character.hit_points
+  return finalScoreHero
+}
 
 //CALL
 // applyImagesToBar(avatarImages)
