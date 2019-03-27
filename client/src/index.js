@@ -38,6 +38,10 @@ API.get('http://localhost:3000/villains').then(data => villains = data)
 // }
 
 let state = {
+  round:
+    {
+
+    },
   villain:
     {
       name: '',
@@ -124,6 +128,7 @@ function submitEventListener(form) {
     form.reset()
     main.innerHTML = ""
     displayInformation()
+    
   })
 }
 
