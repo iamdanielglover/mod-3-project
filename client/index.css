@@ -18,7 +18,43 @@
   max-width: 8vh;
   max-height: 13vh;
 }
+/*span*/
+#battle-div {
+  margin: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 
 .card {
-
+  text-align: center;
+  border: grey solid 1px;
+  padding: 1rem;
+  width: 15rem;
+  height: 25rem;
+  display: inline-grid;
+  margin: 1rem 2rem;
+  box-shadow: 3px 4px #e04b52
 }
+.hero-image {
+  justify-self: center;
+  height: 12rem;
+  width: 12rem;
+}
+
+/* .hero-image {
+  display: inline;
+  margin: 0 auto;
+  margin-left: 0; //centers the image
+  height: 100%;
+  width: auto;
+}
+
+.image-cropper {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+} */

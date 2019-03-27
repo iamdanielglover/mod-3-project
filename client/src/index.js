@@ -27,15 +27,15 @@ let villains = []
 
 API.get('http://localhost:3000/villains').then(data => villains = data)
 
-let villain_state = {
-  name: '',
-  fast_attack: 0,
-  heavy_attack: 0,
-  speed: 0,
-  strength: 0,
-  hit_points: 0,
-  img_url: ''
-}
+// let villain_state = {
+//   name: '',
+//   fast_attack: 0,
+//   heavy_attack: 0,
+//   speed: 0,
+//   strength: 0,
+//   hit_points: 0,
+//   img_url: ''
+// }
 
 let state = {
   villain:
@@ -66,6 +66,8 @@ let state = {
 const imageBar = document.querySelector('#image_bar')
 const main = document.querySelector('#main_div')
 const formDiv = document.createElement('div')
+const heroDiv = document.createElement('div')
+const villainDiv = document.createElement('div')
 
 
 //SIGN UP PAGE
@@ -120,6 +122,8 @@ function submitEventListener(form) {
     let total = parseInt(form.fast_attack.value) + parseInt(form.heavy_attack.value) + parseInt(form.speed.value) + parseInt(form.strength.value) + parseInt(form.hit_points.value)
     validfyPointSpenditure(total, form)
     form.reset()
+    main.innerHTML = ""
+    displayInformation()
   })
 }
 
@@ -138,6 +142,39 @@ function validfyPointSpenditure(num, form) {
 }
 
 //FIGHT PAGE
+function displayInformation() {
+  // let spanForCards = document.createElement('span')
+  let battleDiv = document.createElement('span')
+  battleDiv.id = "battle-div"
+  heroCard()
+  villainCard()
+  main.append(battleDiv)
+  battleDiv.append(heroDiv, villainDiv)
+}
+
+function heroCard() {
+  heroDiv.className = "card"
+  heroDiv.innerHTML =
+    `
+      <h2>Name: ${state.character.name}</h2>
+      <h3>Hit Points: ${state.character.hit_points}</h3>
+      <div class="image-cropper">
+        <img src=${state.character.img_url} class="hero-image">
+      </div>
+    `
+}
+
+function villainCard() {
+  villainDiv.className = "card"
+  villainDiv.innerHTML =
+    `
+      <h2>Name: ${state.villain.name}</h2>
+      <h3>Hit Points: ${state.villain.hit_points}</h3>
+      <div class="image-cropper">
+        <img src=${state.villain.img_url} class="hero-image">
+      </div>
+    `
+}
 
 
 
