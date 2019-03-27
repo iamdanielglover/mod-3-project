@@ -31,7 +31,6 @@ API.get('http://localhost:3000/villains').then(data => villains = data)
 
 let state = {
   round: 1,
-  score: 100,
   villain:
     {
       name: '',
@@ -50,10 +49,10 @@ let state = {
       speed: 0,
       strength: 0,
       hit_points: 0,
-      img_url: ''
+      img_url: '',
+      score: 100
     }
 }
-
 
 
 //PAGE ELEMENTS
@@ -201,7 +200,7 @@ function fastAttackButtonListener() {
   fastAttackBtn.addEventListener('click', event => {
     console.log('fasssstt attttaaaacccckkkkk');
     fastAttack()
-    state.score--
+    state.character.score--
     continueCondition()
   })
 }
@@ -211,7 +210,7 @@ function heavyAttackButtonListener() {
   heavyAttackBtn.addEventListener('click', event => {
     console.log('heavy attttaaaacccckkkkk');
     heavyAttack()
-    state.score--
+    state.character.score--
     continueCondition()
   })
 }
@@ -221,7 +220,7 @@ function strengthAttackButtonListener() {
   strengthAttackBtn.addEventListener('click', event => {
     console.log('strength attttaaaacccckkkkk');
     strengthAttack()
-    state.score--
+    state.character.score--
     continueCondition()
   })
 }
@@ -231,7 +230,7 @@ function speedAttackButtonListener() {
   speedAttackBtn.addEventListener('click', event => {
     console.log('speed attttaaaacccckkkkk');
     speedAttack()
-    state.score--
+    state.character.score--
     continueCondition()
   })
 }
@@ -325,6 +324,7 @@ function roundCondition() {
   } else {
     main.innerHTML = `<h2> You WIN!!! </h2>`
     console.log('You WIN!');
+    
   }
 }
 
@@ -384,10 +384,11 @@ function upgradeValidifyPointSpenditure(total, form, allowance) {
 //END PAGE
 
 //final score
-function finalScore() {
-  let finalScoreHero = state.score + state.character.hit_points
-  return finalScoreHero
-}
+// function finalScore() {
+//   let finalScoreHero = state.character.score + state.character.hit_points
+//   return finalScoreHero
+// }
+const finalScore = () => state.character.score += state.character.hit_points
 
 //CALL
 // applyImagesToBar(avatarImages)
