@@ -43,6 +43,38 @@
   width: 12rem;
 }
 
+button {
+  position: relative;
+  background-color: #e04b52;
+  border: none;
+  border-radius: 5px;
+  height: 3rem;
+  width: max-content;
+  color: whitesmoke;
+  font-size: 18px;
+  justify-self: center;
+}
+
+button:hover {
+  background-color: whitesmoke;
+  border: #e04b52 solid 1px;
+  color: #e04b52;
+}
+
+#button-div {
+  height: 15vh;
+  background: grey;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#button-div span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /* .hero-image {
   display: inline;
   margin: 0 auto;

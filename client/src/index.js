@@ -38,10 +38,7 @@ API.get('http://localhost:3000/villains').then(data => villains = data)
 // }
 
 let state = {
-  round:
-    {
-
-    },
+  round: 1,
   villain:
     {
       name: '',
@@ -72,6 +69,7 @@ const main = document.querySelector('#main_div')
 const formDiv = document.createElement('div')
 const heroDiv = document.createElement('div')
 const villainDiv = document.createElement('div')
+
 
 
 //SIGN UP PAGE
@@ -128,7 +126,7 @@ function submitEventListener(form) {
     form.reset()
     main.innerHTML = ""
     displayInformation()
-    
+
   })
 }
 
@@ -149,12 +147,14 @@ function validfyPointSpenditure(num, form) {
 //FIGHT PAGE
 function displayInformation() {
   // let spanForCards = document.createElement('span')
+  state.villain = villains[state.round - 1]
   let battleDiv = document.createElement('span')
   battleDiv.id = "battle-div"
   heroCard()
   villainCard()
   main.append(battleDiv)
   battleDiv.append(heroDiv, villainDiv)
+  createAttackButtons()
 }
 
 function heroCard() {
@@ -179,6 +179,27 @@ function villainCard() {
         <img src=${state.villain.img_url} class="hero-image">
       </div>
     `
+}
+
+function createAttackButtons() {
+  let divButtonEl = document.createElement('div')
+  divButtonEl.id = 'button-div'
+  divButtonEl.innerHTML = `
+    <span>
+      <button id='fast-attack'>Fast Attack</button>
+    </span>
+    <span>
+    <button id='heavy-attack'>Heavy Attack</button>
+    </span>
+    <span>
+    <button id='strength-attack'>Strength Attack</button>
+    </span>
+    <span>
+    <button id='speed-attack'>Speed Attack</button>
+    </span>
+  `
+  main.append(divButtonEl)
+
 }
 
 
