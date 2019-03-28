@@ -357,17 +357,17 @@ function upgradeEventListener(form) {
     event.preventDefault()
     let total = parseInt(form.fast_attack.value) + parseInt(form.heavy_attack.value) + parseInt(form.speed.value) + parseInt(form.strength.value) + parseInt(form.hit_points.value)
     let allowance = parseInt(state.character.fast_attack) + parseInt(state.character.heavy_attack) + parseInt(state.character.speed) + parseInt(state.character.strength) + parseInt(state.character.hit_points) + state.round + 1
-    upgradeValidifyPointSpenditure(total, form, allowance)
+    if (upgradeValidifyPointSpenditure(total, form, allowance)) {
     main.innerHTML = ""
-    form.reset()
     displayInformation()
+  } else if (upgradeValidifyPointSpenditure(total, form, allowance) === false) {
+    alert(`Must spend ${allowance} points. You've spent ${total} so far`)
+  }
   })
 }
 
 function upgradeValidifyPointSpenditure(total, form, allowance) {
   if (total != allowance) {
-    alert(`Must spend ${allowance} points. You've spent ${total} so far`)
-    upgradeForm()
     return false
   } else if (total == allowance) {
     state.character.fast_attack = form.fast_attack.value
@@ -376,6 +376,7 @@ function upgradeValidifyPointSpenditure(total, form, allowance) {
     state.character.strength = form.strength.value
     state.character.hit_points = form.hit_points.value
   }
+  return true
 }
 
 
