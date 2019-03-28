@@ -22,11 +22,9 @@ const avatarImages =
     }
   ]
 
-const baseurl = 'http://localhost:3000'
 let villains = []
 
 API.get('http://localhost:3000/villains').then(data => villains = data)
-
 
 
 let state = {
