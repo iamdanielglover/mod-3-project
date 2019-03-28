@@ -110,19 +110,20 @@ function submitEventListener(form) {
   form.addEventListener('submit', event => {
     event.preventDefault()
     let total = parseInt(form.fast_attack.value) + parseInt(form.heavy_attack.value) + parseInt(form.speed.value) + parseInt(form.strength.value) + parseInt(form.hit_points.value)
-    validfyPointSpenditure(total, form)
-    form.reset()
+    if (validfyPointSpenditure(total, form)) {
     main.innerHTML = ""
     displayInformation()
-
+  } else if (validfyPointSpenditure(total, form) === false) {
+    alert('Must spend 20 points.')
+    form.reset()
+  }
   })
 }
 
 function validfyPointSpenditure(num, form) {
-  if (num > 20 || num < 20) {
-    alert('Must spend 20 points.')
+  if (num != 20) {
     return false
-  } else if (num <= 20) {
+  } else if (num == 20) {
     state.character.name = form.name.value
     state.character.fast_attack = form.fast_attack.value
     state.character.heavy_attack = form.heavy_attack.value
@@ -130,6 +131,7 @@ function validfyPointSpenditure(num, form) {
     state.character.strength = form.strength.value
     state.character.hit_points = form.hit_points.value
   }
+  return true
 }
 
 //FIGHT PAGE

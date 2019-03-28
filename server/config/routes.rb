@@ -3,6 +3,6 @@ Rails.application.routes.draw do
   resources :heros
   resources :villains
 
-  post '/new_wave', to: 'heros#new_wave'
-  get '/get_score/:hero_id', to: 'heros#get_score'
+  # post '/new_wave', to: 'heros#new_wave'
+  # get '/get_score/:hero_id', to: 'heros#get_score'
 end

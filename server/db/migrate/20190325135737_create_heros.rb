@@ -6,8 +6,9 @@ class CreateHeros < ActiveRecord::Migration[5.2]
       t.integer :heavy_attack
       t.integer :speed
       t.integer :strength
-      t.integer :hit_points, default: 5
+      t.integer :hit_points
       t.string :img_url
+      t.integer :score
 
       t.timestamps
     end

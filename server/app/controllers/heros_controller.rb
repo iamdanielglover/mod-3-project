@@ -16,7 +16,6 @@ class HerosController < ApplicationController
 
 
   def create
-    byebug
     @hero = Hero.new(hero_params)
     if @hero.save
       render json: @hero
@@ -41,23 +40,23 @@ class HerosController < ApplicationController
     end
   end
 
-  def new_wave
-    @game = Game.new(hero_id: params[:hero_id], villain: Villain.random)
-    if @game.save
-      render json: @game.villain
-    else
-      render json: { errors: @game.errors.full_messages }, status: 404
-    end
-  end
-
-  def get_score
-    @hero = Hero.find_by(id: params[:hero_id])
-    render json: { score: @hero.games.length }
-  end
+  # def new_wave
+  #   @game = Game.new(hero_id: params[:hero_id], villain: Villain.random)
+  #   if @game.save
+  #     render json: @game.villain
+  #   else
+  #     render json: { errors: @game.errors.full_messages }, status: 404
+  #   end
+  # end
+  #
+  # def get_score
+  #   @hero = Hero.find_by(id: params[:hero_id])
+  #   render json: { score: @hero.games.length }
+  # end
 
 private
 
   def hero_params
-    params.require(:hero).permit(:name, :fast_attack, :heavy_attack, :speed, :strength, :hit_points, :img_url)
+    params.require(:hero).permit(:name, :fast_attack, :heavy_attack, :speed, :strength, :hit_points, :img_url, :score)
   end
 end
