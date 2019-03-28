@@ -23,12 +23,14 @@ const avatarImages =
   ]
 
 let villains = []
+// let heros = []
 
 API.get('http://localhost:3000/villains').then(data => villains = data)
 
 
 let state = {
   round: 1,
+  status: 'Win',
   villain:
     {
       name: '',
@@ -302,9 +304,11 @@ function continueCondition() {
     main.innerHTML = ""
     displayInformation()
   } else if (vHP > 0 && hHP <= 0) {
+    state.status = 'Lose'
     state.character.score -= 30
     main.innerHTML = ""
     API.postHero(state.character)
+    .then(topTenLeaderboard)
     console.log('hero loses');
   } else if (vHP <= 0 && hHP > 0) {
     roundCondition()
@@ -314,6 +318,8 @@ function continueCondition() {
     main.innerHTML = ""
     console.log('Everybody loses!');
     API.postHero(state.character)
+    .then(topTenLeaderboard)
+
 
   }
 }
@@ -330,6 +336,7 @@ function roundCondition() {
     main.innerHTML = `<h2> You WIN!!! </h2>`
     console.log('You WIN!');
     API.postHero(state.character)
+    .then(topTenLeaderboard)
 
   }
 }
@@ -390,11 +397,56 @@ function upgradeValidifyPointSpenditure(total, form, allowance) {
 
 //END PAGE
 
+//end page show
+function displayEndPage(heros) {
+  main.innerHTML = ""
+  let mainContainerDiv = document.createElement('div')
+  let titleDiv = document.createElement('div')
+  let infoContainerDiv = document.createElement('div')
+  let infoDiv = document.createElement('div')
+  titleDiv.innerHTML = `<h1>You ${state.status}!</h1>`
+  let rows = heros.map(hero =>
+ `<tr>
+   <td>${heros.indexOf(hero) + 1}</td>
+   <td>${hero.name}</td>
+   <td>${hero.score}</td>
+ </tr>
+ `
+).join('')
+
+  infoDiv.innerHTML =
+  `
+    <img src="https://img.maximummedia.ie/her_ie/eyJkYXRhIjoie1widXJsXCI6XCJodHRwOlxcXC9cXFwvbWVkaWEtaGVyLm1heGltdW1tZWRpYS5pZS5zMy5hbWF6b25hd3MuY29tXFxcL3dwLWNvbnRlbnRcXFwvdXBsb2Fkc1xcXC8yMDE2XFxcLzAxXFxcLzE3MTYxNjI0XFxcL1JPc3MuanBnXCIsXCJ3aWR0aFwiOjc2NyxcImhlaWdodFwiOjQzMSxcImRlZmF1bHRcIjpcImh0dHBzOlxcXC9cXFwvd3d3Lmhlci5pZVxcXC9hc3NldHNcXFwvaW1hZ2VzXFxcL2hlclxcXC9uby1pbWFnZS5wbmc_dj0yMlwiLFwib3B0aW9uc1wiOltdfSIsImhhc2giOiI1ODA0NGRmMzUyNWExZGI4ZmIzNmUwZWQzZDkxMjY1YWQ2YTZjNWE1In0=/ross.jpg" alt="">
+    <h3> Leaderboard</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Position</th>
+          <th>Name</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody id="put-it-in">
+      </tbody>
+    </table>
+  `
+  // tbodyel = document.querySelector('tbody').innerHTML = `${rows}`
+
+  main.append(mainContainerDiv)
+  mainContainerDiv.append(titleDiv, infoContainerDiv)
+  infoContainerDiv.append(infoDiv)
+    tbodyel = document.querySelector('#put-it-in').innerHTML = `${rows}`
+}
+
+
+function topTenLeaderboard() {
+  // let heros = []
+  API.getHero()
+  .then(data => {heros = data.slice(0, 10)
+    displayEndPage(heros)})
+}
+
 //final score
-// function finalScore() {
-//   let finalScoreHero = state.character.score + state.character.hit_points
-//   return finalScoreHero
-// }
 const finalScore = () => state.character.score += state.character.hit_points
 
 //CALL
