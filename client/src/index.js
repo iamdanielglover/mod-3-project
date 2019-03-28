@@ -59,17 +59,20 @@ let state = {
 const imageBar = document.querySelector('#image_bar')
 const main = document.querySelector('#main_div')
 const formDiv = document.createElement('div')
+formDiv.className = "form-div"
 const heroDiv = document.createElement('div')
 const villainDiv = document.createElement('div')
-
 
 
 //SIGN UP PAGE
 
 function applyImageToBar(image) {
   spanEl = document.createElement('span')
-  spanEl.innerHTML = `
-  <img id="${image.image_id}" src="${image.img_url}">`
+  spanEl.innerHTML =
+  `
+  <img id="${image.image_id}" src="${image.img_url}">
+  `
+
   imageBar.append(spanEl)
   spanEl.addEventListener('click', () => {
     state.character.img_url = image.img_url
@@ -85,19 +88,25 @@ function displayForm() {
   formDiv.innerHTML = `
         <form class="create-superhero" style="" name="">
         <h3>You have 20 points to spend!</h3>
+        <label >Name</label>
           <input type="text" name="name" value="" placeholder="Enter a name..." class="input-text">
         <br>
+        <label >Fast Attack</label>
           <input type="number" name="fast_attack" value="0" placeholder="0" class="input-text">
         <br>
+        <label >Heavy Attack</label>
           <input type="number" name="heavy_attack" value="0" placeholder="0" class="input-text">
         <br>
+        <label >Speed Attack</label>
           <input type="number" name="speed" value="0" placeholder="0" class="input-text">
         <br>
+        <label >Strength Attack</label>
           <input type="number" name="strength" value="0" placeholder="0" class="input-text">
         <br>
+        <label >Hit Points</label>
           <input type="number" name="hit_points" value="0" placeholder="0" class="input-text">
         <br>
-          <input type="text" name="image" value="${state.character.img_url}" placeholder="0" class="input-text">
+          <input type="hidden" name="image" value="${state.character.img_url}" placeholder="0" class="input-text">
         <br>
         <input type="submit" name="submit" value="Create Your Hero" class="submit">
       </form>
@@ -307,20 +316,21 @@ function continueCondition() {
     state.status = 'Lose'
     state.character.score -= 30
     main.innerHTML = ""
-    API.postHero(state.character)
-    .then(topTenLeaderboard)
+    // API.postHero(state.character)
+    // .then(topTenLeaderboard)
+    topTenLeaderboard()
     console.log('hero loses');
   } else if (vHP <= 0 && hHP > 0) {
     roundCondition()
     console.log('hero wins');
   } else if (vHP <= 0 && hHP <= 0) {
+    state.status = 'Lose'
     state.character.score -= 30
     main.innerHTML = ""
     console.log('Everybody loses!');
-    API.postHero(state.character)
-    .then(topTenLeaderboard)
-
-
+    // API.postHero(state.character)
+    // .then(topTenLeaderboard)
+    topTenLeaderboard()
   }
 }
 
@@ -417,7 +427,7 @@ function displayEndPage(heros) {
   infoDiv.innerHTML =
   `
     <img src="https://img.maximummedia.ie/her_ie/eyJkYXRhIjoie1widXJsXCI6XCJodHRwOlxcXC9cXFwvbWVkaWEtaGVyLm1heGltdW1tZWRpYS5pZS5zMy5hbWF6b25hd3MuY29tXFxcL3dwLWNvbnRlbnRcXFwvdXBsb2Fkc1xcXC8yMDE2XFxcLzAxXFxcLzE3MTYxNjI0XFxcL1JPc3MuanBnXCIsXCJ3aWR0aFwiOjc2NyxcImhlaWdodFwiOjQzMSxcImRlZmF1bHRcIjpcImh0dHBzOlxcXC9cXFwvd3d3Lmhlci5pZVxcXC9hc3NldHNcXFwvaW1hZ2VzXFxcL2hlclxcXC9uby1pbWFnZS5wbmc_dj0yMlwiLFwib3B0aW9uc1wiOltdfSIsImhhc2giOiI1ODA0NGRmMzUyNWExZGI4ZmIzNmUwZWQzZDkxMjY1YWQ2YTZjNWE1In0=/ross.jpg" alt="">
-    <h3> Leaderboard</h3>
+    <h3>Winner's Leaderboard</h3>
     <table>
       <thead>
         <tr>
