@@ -22,8 +22,9 @@ ActiveRecord::Schema.define(version: 2019_03_25_141030) do
     t.integer "heavy_attack"
     t.integer "speed"
     t.integer "strength"
-    t.integer "hit_points", default: 5
+    t.integer "hit_points"
     t.string "img_url"
+    t.integer "score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

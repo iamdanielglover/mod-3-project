@@ -302,15 +302,19 @@ function continueCondition() {
     main.innerHTML = ""
     displayInformation()
   } else if (vHP > 0 && hHP <= 0) {
+    state.character.score -= 30
     main.innerHTML = ""
+    API.postHero(state.character)
     console.log('hero loses');
   } else if (vHP <= 0 && hHP > 0) {
     roundCondition()
-
     console.log('hero wins');
   } else if (vHP <= 0 && hHP <= 0) {
+    state.character.score -= 30
     main.innerHTML = ""
     console.log('Everybody loses!');
+    API.postHero(state.character)
+
   }
 }
 
@@ -322,8 +326,10 @@ function roundCondition() {
     upgradeForm()
     //displayInformation()
   } else {
+    state.character.score += 10
     main.innerHTML = `<h2> You WIN!!! </h2>`
     console.log('You WIN!');
+    API.postHero(state.character)
 
   }
 }
