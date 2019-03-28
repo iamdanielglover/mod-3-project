@@ -1,6 +1,6 @@
 class HerosController < ApplicationController
   def index
-    @heros = Hero.all
+    @heros = Hero.sortByScore
     render json: @heros
   end
 
