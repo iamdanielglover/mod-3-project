@@ -67,14 +67,15 @@ const villainDiv = document.createElement('div')
 //SIGN UP PAGE
 
 function applyImageToBar(image) {
-  spanEl = document.createElement('span')
-  spanEl.innerHTML =
+  divEl = document.createElement('div')
+  divEl.innerHTML =
   `
   <img id="${image.image_id}" src="${image.img_url}">
   `
 
-  imageBar.append(spanEl)
-  spanEl.addEventListener('click', () => {
+  imageBar.append(divEl)
+  divEl.addEventListener('click', () => {
+    document.querySelector('.pick-character').remove()
     state.character.img_url = image.img_url
     displayForm()
   })
@@ -163,10 +164,10 @@ function heroCard() {
   heroDiv.innerHTML =
     `
       <h2>Name: ${state.character.name}</h2>
-      <h3>Hit Points: ${state.character.hit_points}</h3>
       <div class="image-cropper">
         <img src=${state.character.img_url} class="hero-image">
       </div>
+      <h3>Hit Points: ${state.character.hit_points}</h3>
     `
 }
 
@@ -175,10 +176,10 @@ function villainCard() {
   villainDiv.innerHTML =
     `
       <h2>Name: ${state.villain.name}</h2>
-      <h3>Hit Points: ${state.villain.hit_points}</h3>
       <div class="image-cropper">
         <img src=${state.villain.img_url} class="hero-image">
       </div>
+      <h3>Hit Points: ${state.villain.hit_points}</h3>
     `
 }
 
@@ -411,6 +412,7 @@ function upgradeValidifyPointSpenditure(total, form, allowance) {
 function displayEndPage(heros) {
   main.innerHTML = ""
   let mainContainerDiv = document.createElement('div')
+  mainContainerDiv.className = "leaderboard-container"
   let titleDiv = document.createElement('div')
   let infoContainerDiv = document.createElement('div')
   let infoDiv = document.createElement('div')
@@ -428,7 +430,7 @@ function displayEndPage(heros) {
   `
     <img src="https://img.maximummedia.ie/her_ie/eyJkYXRhIjoie1widXJsXCI6XCJodHRwOlxcXC9cXFwvbWVkaWEtaGVyLm1heGltdW1tZWRpYS5pZS5zMy5hbWF6b25hd3MuY29tXFxcL3dwLWNvbnRlbnRcXFwvdXBsb2Fkc1xcXC8yMDE2XFxcLzAxXFxcLzE3MTYxNjI0XFxcL1JPc3MuanBnXCIsXCJ3aWR0aFwiOjc2NyxcImhlaWdodFwiOjQzMSxcImRlZmF1bHRcIjpcImh0dHBzOlxcXC9cXFwvd3d3Lmhlci5pZVxcXC9hc3NldHNcXFwvaW1hZ2VzXFxcL2hlclxcXC9uby1pbWFnZS5wbmc_dj0yMlwiLFwib3B0aW9uc1wiOltdfSIsImhhc2giOiI1ODA0NGRmMzUyNWExZGI4ZmIzNmUwZWQzZDkxMjY1YWQ2YTZjNWE1In0=/ross.jpg" alt="">
     <h3>Winner's Leaderboard</h3>
-    <table>
+    <table class="table">
       <thead>
         <tr>
           <th>Position</th>
