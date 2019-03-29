@@ -87,7 +87,7 @@ function applyImagesToBar(images) {
 
 function displayForm() {
   formDiv.innerHTML = `
-        <form class="create-superhero" style="" name="">
+        <form class="create-superhero" style="" name="myForm">
         <h3>You have 20 points to spend!</h3>
         <label >Name</label>
           <input type="text" name="name" value="" placeholder="Enter a name..." class="input-text">
@@ -117,15 +117,24 @@ function displayForm() {
       submitEventListener(form)
 }
 
+function validateForm() {
+  const x = document.forms["myForm"]["name"].value;
+  if (x == "") {
+    alert("Name must be filled out!");
+    return false;
+  }
+  return true;
+}
+
 function submitEventListener(form) {
 
   form.addEventListener('submit', event => {
     event.preventDefault()
     let total = parseInt(form.fast_attack.value) + parseInt(form.heavy_attack.value) + parseInt(form.speed.value) + parseInt(form.strength.value) + parseInt(form.hit_points.value)
-    if (validfyPointSpenditure(total, form)) {
+    if (validfyPointSpenditure(total, form) && validateForm()) {
     main.innerHTML = ""
     displayInformation()
-  } else if (validfyPointSpenditure(total, form) === false) {
+  } else if (validfyPointSpenditure(total, form) === false && validateForm() == false) {
     alert('Must spend 20 points.')
     form.reset()
   }
@@ -149,6 +158,7 @@ function validfyPointSpenditure(num, form) {
 //FIGHT PAGE
 function displayInformation() {
   // let spanForCards = document.createElement('span')
+  main.innerHTML =  ``
   state.villain = villains[state.round - 1]
   let battleDiv = document.createElement('span')
   battleDiv.id = "battle-div"
@@ -247,6 +257,18 @@ function speedAttackButtonListener() {
   })
 }
 
+function callback() {
+//punching guy gif
+  main.innerHTML = ""
+  main.innerHTML =
+  `
+  <div class="punch-gif">
+  <img src="https://media.giphy.com/media/Lx8lyPHGfdNjq/giphy.gif"/>
+  <h1>Z I N G ! !</h1>
+  </div>
+  `
+}
+
 // FIGHT MECHANICS
 const randomNum = () => Math.ceil(Math.random()*10)
 
@@ -311,8 +333,9 @@ function continueCondition() {
   let hHP = state.character.hit_points
   let vHP = state.villain.hit_points
   if (vHP > 0 && hHP > 0) {
-    main.innerHTML = ""
-    displayInformation()
+    setTimeout(displayInformation, 1250);
+    callback()
+
   } else if (vHP > 0 && hHP <= 0) {
     state.status = 'Lose'
     state.character.score -= 30
@@ -354,20 +377,26 @@ function roundCondition() {
 
 //EDIT PAGE
 function upgradeForm() {
-  let points = state.round + 1
+  let points = state.round + 2
 
   formDiv.innerHTML = `
         <form class="upgrade-superhero" style="" name="">
+        <h1>You completed round ${state.round - 1}</h1>
         <h3>You have ${points} points to spend!</h3>
         <br>
+        <label >Fast Attack</label>
           <input type="number" name="fast_attack" value="${state.character.fast_attack}" placeholder="0" class="input-text">
         <br>
+        <label >Heavy Attack</label>
           <input type="number" name="heavy_attack" value="${state.character.heavy_attack}" placeholder="0" class="input-text">
         <br>
+        <label >Speed Attack</label>
           <input type="number" name="speed" value="${state.character.speed}" placeholder="0" class="input-text">
         <br>
+        <label >Strength Attack</label>
           <input type="number" name="strength" value="${state.character.strength}" placeholder="0" class="input-text">
         <br>
+        <label >Hit Points</label>
           <input type="number" name="hit_points" value="${state.character.hit_points}" placeholder="0" class="input-text">
         <br>
         <input type="submit" name="submit" value="Create Your Hero" class="submit">
@@ -382,7 +411,7 @@ function upgradeEventListener(form) {
   form.addEventListener('submit', event => {
     event.preventDefault()
     let total = parseInt(form.fast_attack.value) + parseInt(form.heavy_attack.value) + parseInt(form.speed.value) + parseInt(form.strength.value) + parseInt(form.hit_points.value)
-    let allowance = parseInt(state.character.fast_attack) + parseInt(state.character.heavy_attack) + parseInt(state.character.speed) + parseInt(state.character.strength) + parseInt(state.character.hit_points) + state.round + 1
+    let allowance = parseInt(state.character.fast_attack) + parseInt(state.character.heavy_attack) + parseInt(state.character.speed) + parseInt(state.character.strength) + parseInt(state.character.hit_points) + state.round + 2
     if (upgradeValidifyPointSpenditure(total, form, allowance)) {
     main.innerHTML = ""
     displayInformation()
@@ -416,6 +445,7 @@ function displayEndPage(heros) {
   let titleDiv = document.createElement('div')
   let infoContainerDiv = document.createElement('div')
   let infoDiv = document.createElement('div')
+  infoDiv.className = "leaderboard-info"
   titleDiv.innerHTML = `<h1>You ${state.status}!</h1>`
   let rows = heros.map(hero =>
  `<tr>
@@ -428,9 +458,10 @@ function displayEndPage(heros) {
 
   infoDiv.innerHTML =
   `
-    <img src="https://img.maximummedia.ie/her_ie/eyJkYXRhIjoie1widXJsXCI6XCJodHRwOlxcXC9cXFwvbWVkaWEtaGVyLm1heGltdW1tZWRpYS5pZS5zMy5hbWF6b25hd3MuY29tXFxcL3dwLWNvbnRlbnRcXFwvdXBsb2Fkc1xcXC8yMDE2XFxcLzAxXFxcLzE3MTYxNjI0XFxcL1JPc3MuanBnXCIsXCJ3aWR0aFwiOjc2NyxcImhlaWdodFwiOjQzMSxcImRlZmF1bHRcIjpcImh0dHBzOlxcXC9cXFwvd3d3Lmhlci5pZVxcXC9hc3NldHNcXFwvaW1hZ2VzXFxcL2hlclxcXC9uby1pbWFnZS5wbmc_dj0yMlwiLFwib3B0aW9uc1wiOltdfSIsImhhc2giOiI1ODA0NGRmMzUyNWExZGI4ZmIzNmUwZWQzZDkxMjY1YWQ2YTZjNWE1In0=/ross.jpg" alt="">
+    <img src="${state.character.img_url}" alt="">
     <h3>Winner's Leaderboard</h3>
-    <table class="table">
+    <div class="leaderboard-table">
+    <table>
       <thead>
         <tr>
           <th>Position</th>
@@ -441,6 +472,7 @@ function displayEndPage(heros) {
       <tbody id="put-it-in">
       </tbody>
     </table>
+    </div>
   `
   // tbodyel = document.querySelector('tbody').innerHTML = `${rows}`
 
